@@ -1,6 +1,5 @@
 //Initial References
-const newTaskInput = document.querySelector
-("#new-task input");
+const newTaskInput = document.querySelector("#new-task input");
 const tasksDiv = document.querySelector("#tasks");
 let deleteTasks, editTasks, tasks;
 let updateNote = "";
@@ -15,7 +14,7 @@ window.onload = () => {
 
 //Function to Display The Tasks
 const displayTasks = () => {
-  if(Object.keys(localStorage.length).length > 0) {
+  if(Object.keys(localStorage).length > 0) {
 tasksDiv.style.display = "inline-block";
   } else {
     tasksDiv.style.display = "none";
@@ -24,7 +23,7 @@ tasksDiv.style.display = "inline-block";
   //Clear the tasks
   tasksDiv.innerHTML = "";
 
-  //Fecth All The Keys in local storage
+  //Fech All The Keys in local storage
   let tasks = Object.keys(localStorage);
   tasks = tasks.sort();
 
@@ -36,7 +35,7 @@ tasksDiv.style.display = "inline-block";
     let taskInnerDiv = document.createElement("div");
     taskInnerDiv.classList.add("task");
     taskInnerDiv.setAttribute("id", key);
-    taskInnerDiv.innerHTML = `<span id="taskname">${key.split("_") [1]}</span>`;
+    taskInnerDiv.innerHTML = `<span id="taskname">${key.split("_")[1]}</span>`;
 
     //localStorage would store boolean as string so we parse it to boolean back
     let editButton = document.createElement("button");
@@ -49,7 +48,7 @@ tasksDiv.style.display = "inline-block";
       taskInnerDiv.classList.add("completed");
     }
     taskInnerDiv.appendChild(editButton);
-    taskInnerDiv.innerHTML += `<button class="delete">>ion-icon name="trash"></ion-icon></button>`;
+    taskInnerDiv.innerHTML += `<button class="delete"><ion-icon name="trash"></ion-icon></button>`;
     tasksDiv.appendChild(taskInnerDiv);
   }
 
@@ -59,9 +58,9 @@ tasksDiv.style.display = "inline-block";
     element.onclick = () => {
       //localStorage update
       if (element.classList.contains("completed")) {
-        updateStorage(element.id.split("_") [0], element.innerText, false);
+        updateStorage(element.id.split("_")[0], element.innerText, false);
       } else {
-        updateStorage(element.id.split("_") [0], element.innerText, true);
+        updateStorage(element.id.split("_")[0], element.innerText, true);
       }
     };
   });
@@ -76,7 +75,7 @@ tasksDiv.style.display = "inline-block";
       disableButtons(true);
       //updateinput value and remove div
       let parent = element.parentElement;
-      newTaskInput.value = parent.querySelector("taskname").innerText;
+      newTaskInput.value = parent.querySelector("#taskname").innerText;
       //set updateNote to the task that is being edited
       updateNote = parent.id;
       //remove task
@@ -86,7 +85,7 @@ tasksDiv.style.display = "inline-block";
 
   //Delete Tasks
   deleteTasks = document.getElementsByClassName("delete");
-  Array.from(editTasks).forEach((element, index) => {
+  Array.from(deleteTasks).forEach((element, index) => {
     element.addEventListener("click", (e) => {
       e.stopPropagation();
       //Delete from local storage and remove div
@@ -102,7 +101,7 @@ tasksDiv.style.display = "inline-block";
 const disableButtons = (bool) => {
   let editButtons = document.getElementsByClassName("edit");
   Array.from(editButtons).forEach((element) => {
-    element.disable = bool;
+    element.disabled = bool;
   });
 }
 
