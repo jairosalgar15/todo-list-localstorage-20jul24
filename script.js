@@ -1,8 +1,7 @@
 //Initial References
 const newTaskInput = document.querySelector
 ("#new-task input");
-const tasksDiv = document.querySelector
-("#task");
+const tasksDiv = document.querySelector("#tasks");
 let deleteTasks, editTasks, tasks;
 let updateNote = "";
 let count;
@@ -35,7 +34,7 @@ tasksDiv.style.display = "inline-block";
     //Get all values
     let value = localStorage.getItem(key);
     let taskInnerDiv = document.createElement("div");
-    taskInnerDiv.classList.add(task);
+    taskInnerDiv.classList.add("task");
     taskInnerDiv.setAttribute("id", key);
     taskInnerDiv.innerHTML = `<span id="taskname">${key.split("_") [1]}</span>`;
 
@@ -51,11 +50,11 @@ tasksDiv.style.display = "inline-block";
     }
     taskInnerDiv.appendChild(editButton);
     taskInnerDiv.innerHTML += `<button class="delete">>ion-icon name="trash"></ion-icon></button>`;
-    task.appendChild(taskInnerDiv);
+    tasksDiv.appendChild(taskInnerDiv);
   }
 
   //tasks completed
-  tasks = docyument.querySelectorAll(".task");
+  tasks = document.querySelectorAll(".task");
   tasks.forEach((element, index) => {
     element.onclick = () => {
       //localStorage update
