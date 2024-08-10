@@ -1,7 +1,7 @@
 //Initial References
 const newTaskInput = document.querySelector
 ("#new-task input");
-const taskDiv = document.querySelector
+const tasksDiv = document.querySelector
 ("#task");
 let deleteTasks, editTasks, tasks;
 let updateNote = "";
@@ -78,6 +78,66 @@ tasksDiv.style.display = "inline-block";
       //updateinput value and remove div
       let parent = element.parentElement;
       newTaskInput.value = parent.querySelector("taskname").innerText;
-    })
-  })
+      //set updateNote to the task that is being edited
+      updateNote = parent.id;
+      //remove task
+      parent.remove();
+    });
+  });
+
+  //Delete Tasks
+  deleteTasks = document.getElementsByClassName("delete");
+  Array.from(editTasks).forEach((element, index) => {
+    element.addEventListener("click", (e) => {
+      e.stopPropagation();
+      //Delete from local storage and remove div
+      let parent = element.parentElement;
+      removeTask(parent.id);
+      parent.remove();
+      count -= 1;
+    });
+  });
 }
+
+//Disable Edit Button
+const disableButtons = (bool) => {
+  let editButtons = document.getElementsByClassName("edit");
+  Array.from(editButtons).forEach((element) => {
+    element.disable = bool;
+  });
+}
+
+//Remove Task from local storage
+const removeTask = (taskValue) => {
+  localStorage.removeItem(taskValue);
+  displayTasks();
+}
+
+//Add tasks to local storage
+const updateStorage = (index, taskValue, completed) => {
+  localStorage.setItem (`${index}_${taskValue}`, completed);
+  displayTasks();
+}
+
+//Funtion To Add New Task
+document.querySelector("#push").addEventListener("click", () => {
+  //Enable the edit button
+  disableButtons(false);
+  if(newTaskInput.value.length == 0) {
+    alert("Please Enter A Task");
+  } else {
+    //Store locally and display from local storage
+    if(updateNote == "") {
+      //new task
+      updateStorage(count, newTaskInput.value, false);
+    } else {
+      //update task
+      let existingCount = updateNote.split("_")[0];
+      removeTask(updateNote);
+      updateStorage(existingCount, newTaskInput.value, false);
+      updateNote = "";
+  }
+  count += 1;
+  newTaskInput.value = "";
+  }
+});
